@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		ABE086831E4CB0E5004B1DF0 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABE086821E4CB0E5004B1DF0 /* main.swift */; };
+		ABE0868C1E4CB27B004B1DF0 /* Matrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABE086891E4CB27B004B1DF0 /* Matrix.swift */; };
+		ABE0868D1E4CB27B004B1DF0 /* MatrixGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABE0868A1E4CB27B004B1DF0 /* MatrixGenerator.swift */; };
+		ABE0868E1E4CB27B004B1DF0 /* UserInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABE0868B1E4CB27B004B1DF0 /* UserInterface.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +28,9 @@
 /* Begin PBXFileReference section */
 		ABE0867F1E4CB0E5004B1DF0 /* matcalc */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = matcalc; sourceTree = BUILT_PRODUCTS_DIR; };
 		ABE086821E4CB0E5004B1DF0 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		ABE086891E4CB27B004B1DF0 /* Matrix.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Matrix.swift; sourceTree = "<group>"; };
+		ABE0868A1E4CB27B004B1DF0 /* MatrixGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MatrixGenerator.swift; sourceTree = "<group>"; };
+		ABE0868B1E4CB27B004B1DF0 /* UserInterface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInterface.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +64,9 @@
 			isa = PBXGroup;
 			children = (
 				ABE086821E4CB0E5004B1DF0 /* main.swift */,
+				ABE086891E4CB27B004B1DF0 /* Matrix.swift */,
+				ABE0868A1E4CB27B004B1DF0 /* MatrixGenerator.swift */,
+				ABE0868B1E4CB27B004B1DF0 /* UserInterface.swift */,
 			);
 			path = matcalc;
 			sourceTree = "<group>";
@@ -121,6 +130,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ABE0868D1E4CB27B004B1DF0 /* MatrixGenerator.swift in Sources */,
+				ABE0868C1E4CB27B004B1DF0 /* Matrix.swift in Sources */,
+				ABE0868E1E4CB27B004B1DF0 /* UserInterface.swift in Sources */,
 				ABE086831E4CB0E5004B1DF0 /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -255,6 +267,7 @@
 				ABE086881E4CB0E5004B1DF0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
