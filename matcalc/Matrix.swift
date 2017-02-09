@@ -69,6 +69,17 @@ class Matrix {
         return matrix[i][j]
     }
     
+    /// Gets an element of the matrix
+    ///
+    /// - Warning: Only do this, if you know, that i and j are not out of bounds (e.g. iterating i and j)
+    /// - Parameters:
+    ///   - i: the row of the element
+    ///   - j: the column of the element
+    /// - Returns: The element at position i and j (`matrix[i][j]`)
+    public func getUnsafe(_ i: Int, _ j: Int) -> Double {
+        return matrix[i][j]
+    }
+    
     /// Sets an element of the matrix
     ///
     /// - Parameters:
@@ -76,10 +87,21 @@ class Matrix {
     ///   - j: the column of the element
     ///   - newValue: the new value to set at the position
     /// - Throws: `MatrixError.IllegalArgumentError` when the index i or j is out of bounds
-    public func set(_ i: Int, _ j: Int, _ newValue: Double) throws {
+    public func set(_ i: Int, _ j: Int, newValue: Double) throws {
         guard i > 0 && i <= size && j > 0 && j <= size else {
             throw MatrixError.IllegalArgumentError
         }
+        matrix[i][j] = newValue
+    }
+    
+    /// Sets an element of the matrix
+    ///
+    /// - Warning: Only do this, if you known, that i and j are not out of bounds (e.g. iterating i and j)
+    /// - Parameters:
+    ///   - i: the row of the element
+    ///   - j: the column of the element
+    ///   - newValue: the new value to set at the position
+    public func setUnsafe(_ i: Int, _ j: Int, newValue: Double) {
         matrix[i][j] = newValue
     }
     
