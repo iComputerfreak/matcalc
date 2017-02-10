@@ -255,6 +255,14 @@ class Matrix {
     ///returns a base line from which out a specific column gets only other 0 components and which is the base 
     ///of the gauß add operation but to protect that the baseline is two times used which
     ///would cause a damage of a privious generated column which should have max one component != 0
+    
+    
+    /// calculates the baseline from which out a specific
+    ///
+    /// - Parameters:
+    ///   - column: of which the baseline is searched
+    ///   - illegalBases: which cannot be a baseline because they already a baseline and would
+    /// - Returns: a tuppel of the baseLine index and the newly illegalBases
     func baseLine(column: Int, illegalBases: [Int]) -> ( Int, [Int]){
         var newIllegalBase: [Int] = illegalBases
         for line in 0..<matrix.count {
