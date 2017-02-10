@@ -24,10 +24,10 @@ class Matrix {
     /// the matrix
     private var matrix: [[Double]]
     
-    /// The size of the matrix
-    public var size: Int {
+    /// The size of the matrix first value = line second value = columns
+    public var size: (lines: Int, columns: Int) {
         get {
-            return matrix[0].count
+            return (matrix.count, matrix[0].count)
         }
     }
     
@@ -55,6 +55,15 @@ class Matrix {
         self.matrix = matrix
     }
     
+    /// Creates an empty size nxm matrix
+    /// Every element of the created matrix is 0
+    /// 
+    /// - Parameter n = number of lines
+    /// - Parameter m = number of columns
+    init(n: Int, m: Int){
+        self.matrix = [[Double]](repeating: [Double](repeating: 0.0, count: m), count: n)
+    }
+    
     /// Gets an element of the matrix
     ///
     /// - Parameters:
@@ -63,7 +72,7 @@ class Matrix {
     /// - Returns: The element at position i and j (`matrix[i][j]`)
     /// - Throws: `MatrixError.IllegalArgumentError` when the index i or j is out of bounds
     public func get(_ i: Int, _ j: Int) throws -> Double {
-        guard i > 0 && i <= size && j > 0 && j <= size else {
+        guard i > 0 && i <= size.lines && j > 0 && j <= size.columns else {
             throw MatrixError.IllegalArgumentError
         }
         return matrix[i][j]
@@ -88,7 +97,7 @@ class Matrix {
     ///   - newValue: the new value to set at the position
     /// - Throws: `MatrixError.IllegalArgumentError` when the index i or j is out of bounds
     public func set(_ i: Int, _ j: Int, newValue: Double) throws {
-        guard i > 0 && i <= size && j > 0 && j <= size else {
+        guard i > 0 && i <= size.lines && j > 0 && j <= size.columns else {
             throw MatrixError.IllegalArgumentError
         }
         matrix[i][j] = newValue
@@ -112,7 +121,7 @@ class Matrix {
     ///   - line: the line to put at the given row
     /// - Throws: `MatrixError.IllegalArgumentError` when the index i is out of bounds
     public func setLine(i: Int, line: [Double]) throws {
-        guard line.count == size else {
+        guard line.count == size.lines else {
             throw MatrixError.IllegalArgumentError
         }
         matrix[i] = line
@@ -125,9 +134,9 @@ class Matrix {
     ///   - j: the column to remove
     /// - Returns: a matrix of the size (`size - 1`)
     public func removeLineAndColumn(_ i: Int, _ j: Int) -> Matrix {
-        let m = Matrix(size: self.size - 1)
-        for line in 0..<self.size {
-            for col in 0..<self.size {
+        let m = Matrix(size: self.size.lines - 1)
+        for line in 0..<self.size.lines {
+            for col in 0..<self.size.columns {
                 if line == i || col == j {
                     continue
                 }
@@ -142,16 +151,16 @@ class Matrix {
     /// - Returns: the determinant of this matrix
     public func determinant() -> Double {
         
-        if self.size == 1 {
+        if self.size.lines == 1 && self.size.columns == 1 {
             return self.matrix[0][0]
-        } else if self.size == 2 {
+        } else if self.size.lines == 2 && self.size.columns == 2 {
             return self.matrix[0][0] * self.matrix[1][1] - self.matrix[1][0] * self.matrix[0][1]
         }
         
         // calculating after last column:
         var determinant: Double = 0
-        let j = self.size - 1
-        for i in 0..<size {
+        let j = self.size.lines - 1
+        for i in 0..<size.lines {
             // Laplace:
             determinant += ((i + j) % 2 == 0 ? 1 : -1) * self.matrix[i][j] * self.removeLineAndColumn(i, j).determinant()
             // 36
@@ -161,6 +170,56 @@ class Matrix {
         
     }
     
+    /// Operator overloading of + executes a component wise addition
+    static func +(left: Matrix, right: Matrix) throws -> Matrix {
+        guard left.matrix.count == right.matrix.count && right.matrix[0].count == left.matrix[0].count else {
+            throw MatrixError.IllegalArgumentError
+        }
+        let result: Matrix = Matrix(n: left.size.columns, m: left.size.lines)
+        for line in 0..<left.matrix.count{
+            for column in 0..<left.matrix[0].count{
+                result.matrix[line][column] = left.matrix[line][column] + right.matrix[line][column]
+            }
+        }
+        return result
+    }
+    
+    /// Operator overloading of * executes a matrix multiplication
+    static func *(left: Matrix, right: Matrix) throws -> Matrix{
+        var result: Matrix = Matrix()
+        guard left.matrix[0].count == right.matrix.count else{
+            throw MatrixError.IllegalArgumentError
+        }
+        result = Matrix(matrix: [[Double]](repeating: [Double](repeating: 0.0, count: right.matrix[0].count), count: left.size.lines))
+        for i in 0..<result.matrix.count{
+            for k in 0..<result.matrix[0].count{
+                result.matrix[i][k] = c(i: i, k: k, leftMatrix: left.matrix, rightMatrix: right.matrix)
+            }
+        }
+        return result
+    }
+    
+    /// Operator overolading of * with a scalar and a matrix
+    static func*(λ: Double, left: Matrix)-> Matrix{
+        let result: Matrix = Matrix(n: left.size.lines, m: left.size.columns)
+        for line in 0..<left.matrix.count{
+            for column in 0..<left.matrix[0].count{
+                result.matrix[line][column] = λ * left.matrix[line][column]
+            }
+        }
+        return result
+    }
+    
+    ///calculates the result component on line i and column k of a matrix multiplication of leftMatrix * rightMatrix
+    private static func c(i: Int, k: Int, leftMatrix: [[Double]], rightMatrix: [[Double]]) -> Double{
+        var c: Double = 0
+        for j in 0 ..< leftMatrix[0].count{
+            c += leftMatrix[i][j] * rightMatrix[j][k]
+        }
+        return c
+    }
+    
+    ///returns a after gauß in gauß normal form
     func gauß() -> Matrix{
         let matrix: Matrix = Matrix(matrix: self.matrix)
         var illegalBases: [Int] = [Int]()
@@ -193,7 +252,10 @@ class Matrix {
         return matrix
     }
     
-    func baseLine(column: Int, illegalBases: [Int]) -> (Int,[Int]){
+    ///returns a base line from which out a specific column gets only other 0 components and which is the base 
+    ///of the gauß add operation but to protect that the baseline is two times used which
+    ///would cause a damage of a privious generated column which should have max one component != 0
+    func baseLine(column: Int, illegalBases: [Int]) -> ( Int, [Int]){
         var newIllegalBase: [Int] = illegalBases
         for line in 0..<matrix.count {
             if matrix[line][column] != 0 {
@@ -218,9 +280,9 @@ class Matrix {
     }
     
     public func transpose() {
-        var resultMatrix: [[Double]] = Array.init(repeating: Array.init(repeating: 0, count: matrix.count), count: matrix.count)
-        for line in 0..<matrix.count {
-            for column in 0..<matrix[0].count{
+        var resultMatrix: [[Double]] = Array.init(repeating: Array.init(repeating: 0, count: size.columns), count: size.columns)
+        for line in 0..<size.lines{
+            for column in 0..<size.columns{
                 resultMatrix[column][line] = matrix[line][column]
             }
         }
@@ -268,6 +330,7 @@ class Matrix {
         }
     }
     
+    //gauß operation multiplies all elements on the line with a λ
     func multiplyLine(line: Int, λ: Double){
         for i in 0..<matrix[0].count {
             matrix[line][i] *= λ
