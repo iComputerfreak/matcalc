@@ -161,36 +161,36 @@ class Matrix {
         
     }
     
-    
-    public func gauß(){
+    func gauß() -> Matrix{
+        let matrix: Matrix = Matrix(matrix: self.matrix)
         var illegalBases: [Int] = [Int]()
-        for column in 0..<matrix[0].count {
-            if nullColumn(columnPosition: column) {
+        for column in 0..<matrix.matrix[0].count {
+            if matrix.nullColumn(columnPosition: column) {
                 continue
             }
-            let positionCalculatorResult: (Int, [Int]) = baseLine(column: column, illegalBases: illegalBases)
+            let positionCalculatorResult: (Int, [Int]) = matrix.baseLine(column: column, illegalBases: illegalBases)
             let positionCalculatorLine: Int = positionCalculatorResult.0
             illegalBases = positionCalculatorResult.1
             if positionCalculatorLine == -1 {
                 continue
             }
-            for line in 0..<matrix.count {
-                if matrix[line][column] != 0 && line != positionCalculatorLine {
-                    let multiplicator: Double = -(matrix[line][column]/matrix[positionCalculatorLine][column])
-                    //                    print("the \(positionCalculatorLine) multiplied with \(multiplicator) and added on \(line)")
-                    self.addLineToOtherLine(firstLine: positionCalculatorLine, λ: multiplicator, secondLine: line)
+            for line in 0..<matrix.matrix.count {
+                if matrix.matrix[line][column] != 0 && line != positionCalculatorLine {
+                    let multiplicator: Double = -( matrix.matrix[line][column]/matrix.matrix[positionCalculatorLine][column])
+                    matrix.addLineToOtherLine(firstLine: positionCalculatorLine, λ: multiplicator, secondLine: line)
                 }
             }
         }
-        for columnAndRow in 0..<matrix[0].count{
-            if matrix[columnAndRow][columnAndRow] == 0 {
+        for columnAndRow in 0..<matrix.matrix[0].count{
+            if matrix.matrix[columnAndRow][columnAndRow] == 0 {
                 continue
             }else{
-                let multiplicator: Double = 1/matrix[columnAndRow][columnAndRow]
-                multiplieLine(line: columnAndRow, λ: multiplicator)
+                let multiplicator: Double = 1 / matrix.matrix[columnAndRow][columnAndRow]
+                matrix.multiplyLine(line: columnAndRow, λ: multiplicator)
             }
         }
-        sort()
+        matrix.sort()
+        return matrix
     }
     
     func baseLine(column: Int, illegalBases: [Int]) -> (Int,[Int]){
@@ -217,7 +217,7 @@ class Matrix {
         return true
     }
     
-    func transpose() {
+    public func transpose() {
         var resultMatrix: [[Double]] = Array.init(repeating: Array.init(repeating: 0, count: matrix.count), count: matrix.count)
         for line in 0..<matrix.count {
             for column in 0..<matrix[0].count{
@@ -268,7 +268,7 @@ class Matrix {
         }
     }
     
-    func multiplieLine(line: Int, λ: Double){
+    func multiplyLine(line: Int, λ: Double){
         for i in 0..<matrix[0].count {
             matrix[line][i] *= λ
         }
