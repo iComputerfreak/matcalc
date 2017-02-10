@@ -47,6 +47,8 @@ class UserInterface {
                 print("The determinant of the matrix")
                 print(m!.description)
                 print("is \(m!.determinant())")
+                m?.gauß()
+                print("is \(m?.description)")
                 print("")
                 print("")
             } else {

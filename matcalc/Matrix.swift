@@ -161,6 +161,119 @@ class Matrix {
         
     }
     
+    
+    public func gauß(){
+        var illegalBases: [Int] = [Int]()
+        for column in 0..<matrix[0].count {
+            if nullColumn(columnPosition: column) {
+                continue
+            }
+            let positionCalculatorResult: (Int, [Int]) = baseLine(column: column, illegalBases: illegalBases)
+            let positionCalculatorLine: Int = positionCalculatorResult.0
+            illegalBases = positionCalculatorResult.1
+            if positionCalculatorLine == -1 {
+                continue
+            }
+            for line in 0..<matrix.count {
+                if matrix[line][column] != 0 && line != positionCalculatorLine {
+                    let multiplicator: Double = -(matrix[line][column]/matrix[positionCalculatorLine][column])
+                    //                    print("the \(positionCalculatorLine) multiplied with \(multiplicator) and added on \(line)")
+                    self.addLineToOtherLine(firstLine: positionCalculatorLine, λ: multiplicator, secondLine: line)
+                }
+            }
+        }
+        for columnAndRow in 0..<matrix[0].count{
+            if matrix[columnAndRow][columnAndRow] == 0 {
+                continue
+            }else{
+                let multiplicator: Double = 1/matrix[columnAndRow][columnAndRow]
+                multiplieLine(line: columnAndRow, λ: multiplicator)
+            }
+        }
+        sort()
+    }
+    
+    func baseLine(column: Int, illegalBases: [Int]) -> (Int,[Int]){
+        var newIllegalBase: [Int] = illegalBases
+        for line in 0..<matrix.count {
+            if matrix[line][column] != 0 {
+                if newIllegalBase.contains(line) {
+                    continue
+                }else{
+                    newIllegalBase.append(line)
+                    return (line, newIllegalBase)
+                }
+            }
+        }
+        return (-1, newIllegalBase)
+    }
+    
+    func nullColumn(columnPosition: Int) -> Bool{
+        for row in 0..<matrix[0].count{
+            if matrix[row][columnPosition] != 0 {
+                return false
+            }
+        }
+        return true
+    }
+    
+    func transpose() {
+        var resultMatrix: [[Double]] = Array.init(repeating: Array.init(repeating: 0, count: matrix.count), count: matrix.count)
+        for line in 0..<matrix.count {
+            for column in 0..<matrix[0].count{
+                resultMatrix[column][line] = matrix[line][column]
+            }
+        }
+        matrix = resultMatrix
+    }
+    
+    func sort(){
+        transpose()
+        matrix.sort { (first, second) -> Bool in
+            if zeroLine(line: first){
+                return false
+            }else if zeroLine(line: second){
+                return true
+            }
+            for i in 0..<first.count{
+                if(first[i] > second[i]){
+                    return true
+                }else if first[i] < second[i]{
+                    return false
+                }
+            }
+            return true
+        }
+        transpose()
+    }
+    
+    func zeroLine(line: [Double])-> Bool{
+        return line.elementsEqual([Double](repeating: 0.0, count: line.count))
+    }
+    
+    //one of the basic operations for gauß algorithm
+    func changeLines(first: Int, second: Int){
+        let firstLine: [Double] = matrix[second]
+        let secondLine: [Double] = matrix[first]
+        
+        self.matrix[first] = firstLine
+        self.matrix[second] = secondLine
+        
+    }
+    
+    //adds scalar*firstLine to secondLine
+    func addLineToOtherLine(firstLine: Int, λ: Double, secondLine: Int){
+        for i in 0..<matrix[0].count{
+            matrix[secondLine][i] += λ * matrix[firstLine][i]
+        }
+    }
+    
+    func multiplieLine(line: Int, λ: Double){
+        for i in 0..<matrix[0].count {
+            matrix[line][i] *= λ
+        }
+    }
+    
     /// Returns the matrix as a padded string
     var description: String {
         var output = ""
