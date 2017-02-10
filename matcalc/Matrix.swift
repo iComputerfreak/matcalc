@@ -161,11 +161,14 @@ class Matrix {
         
     }
     
-    func gauß() -> Matrix{
-        let matrix: Matrix = Matrix(matrix: self.matrix)
-        var illegalBases: [Int] = [Int]()
-        for column in 0..<matrix.matrix[0].count {
-            if matrix.nullColumn(columnPosition: column) {
+    /// <#Description#>
+    ///
+    /// - Returns: <#return value description#>
+    func gauss() -> Matrix {
+        let matrix = Matrix(matrix: self.matrix)
+        var illegalBases = [Int]()
+        for column in 0..<matrix.size {
+            if matrix.isNullColumn(columnPosition: column) {
                 continue
             }
             let positionCalculatorResult: (Int, [Int]) = matrix.baseLine(column: column, illegalBases: illegalBases)
@@ -174,42 +177,52 @@ class Matrix {
             if positionCalculatorLine == -1 {
                 continue
             }
-            for line in 0..<matrix.matrix.count {
+            for line in 0..<matrix.size {
                 if matrix.matrix[line][column] != 0 && line != positionCalculatorLine {
                     let multiplicator: Double = -( matrix.matrix[line][column]/matrix.matrix[positionCalculatorLine][column])
-                    matrix.addLineToOtherLine(firstLine: positionCalculatorLine, λ: multiplicator, secondLine: line)
+                    matrix.addLineToOtherLine(firstLine: positionCalculatorLine, lambda: multiplicator, secondLine: line)
                 }
             }
         }
-        for columnAndRow in 0..<matrix.matrix[0].count{
+        for columnAndRow in 0..<matrix.size {
             if matrix.matrix[columnAndRow][columnAndRow] == 0 {
                 continue
-            }else{
+            } else {
                 let multiplicator: Double = 1 / matrix.matrix[columnAndRow][columnAndRow]
-                matrix.multiplyLine(line: columnAndRow, λ: multiplicator)
+                matrix.multiplyLine(line: columnAndRow, lambda: multiplicator)
             }
         }
         matrix.sort()
         return matrix
     }
     
-    func baseLine(column: Int, illegalBases: [Int]) -> (Int,[Int]){
-        var newIllegalBase: [Int] = illegalBases
-        for line in 0..<matrix.count {
-            if matrix[line][column] != 0 {
-                if newIllegalBase.contains(line) {
+    /// <#Description#>
+    ///
+    /// - Parameters:
+    ///   - column: <#column description#>
+    ///   - illegalBases: <#illegalBases description#>
+    /// - Returns: <#return value description#>
+    func baseLine(column: Int, illegalBases: [Int]) -> (Int, [Int]) {
+        var newIllegalBase = illegalBases
+        for row in 0..<matrix.count {
+            if matrix[row][column] != 0 {
+                if newIllegalBase.contains(row) {
                     continue
-                }else{
-                    newIllegalBase.append(line)
-                    return (line, newIllegalBase)
+                } else {
+                    newIllegalBase.append(row)
+                    return (row, newIllegalBase)
                 }
             }
         }
         return (-1, newIllegalBase)
     }
     
-    func nullColumn(columnPosition: Int) -> Bool{
-        for row in 0..<matrix[0].count{
+    /// <#Description#>
+    ///
+    /// - Parameter columnPosition: <#columnPosition description#>
+    /// - Returns: <#return value description#>
+    public func isNullColumn(columnPosition: Int) -> Bool {
+        for row in 0..<self.size {
             if matrix[row][columnPosition] != 0 {
                 return false
             }
@@ -217,17 +230,19 @@ class Matrix {
         return true
     }
     
+    /// <#Description#>
     public func transpose() {
-        var resultMatrix: [[Double]] = Array.init(repeating: Array.init(repeating: 0, count: matrix.count), count: matrix.count)
-        for line in 0..<matrix.count {
-            for column in 0..<matrix[0].count{
-                resultMatrix[column][line] = matrix[line][column]
+        var resultMatrix = [[Double]](repeating: [Double](repeating: 0, count: self.size), count: self.size)
+        for row in 0..<self.size {
+            for column in 0..<self.size {
+                resultMatrix[column][row] = matrix[row][column]
             }
         }
         matrix = resultMatrix
     }
     
-    func sort(){
+    /// <#Description#>
+    func sort() {
         transpose()
         matrix.sort { (first, second) -> Bool in
             if zeroLine(line: first){
@@ -235,10 +250,10 @@ class Matrix {
             }else if zeroLine(line: second){
                 return true
             }
-            for i in 0..<first.count{
-                if(first[i] > second[i]){
+            for i in 0..<first.count {
+                if first[i] > second[i] {
                     return true
-                }else if first[i] < second[i]{
+                } else if first[i] < second[i] {
                     return false
                 }
             }
@@ -247,38 +262,57 @@ class Matrix {
         transpose()
     }
     
-    func zeroLine(line: [Double])-> Bool{
+    /// <#Description#>
+    ///
+    /// - Parameter line: <#line description#>
+    /// - Returns: <#return value description#>
+    func zeroLine(line: [Double])-> Bool {
         return line.elementsEqual([Double](repeating: 0.0, count: line.count))
     }
     
-    //one of the basic operations for gauß algorithm
-    func changeLines(first: Int, second: Int){
-        let firstLine: [Double] = matrix[second]
-        let secondLine: [Double] = matrix[first]
+    
+    /// <#Description#>
+    ///
+    /// - Parameters:
+    ///   - first: <#first description#>
+    ///   - second: <#second description#>
+    func swapLines(first: Int, second: Int) {
+        let firstLine = matrix[second]
+        let secondLine = matrix[first]
         
         self.matrix[first] = firstLine
         self.matrix[second] = secondLine
-        
     }
     
-    //adds scalar*firstLine to secondLine
-    func addLineToOtherLine(firstLine: Int, λ: Double, secondLine: Int){
-        for i in 0..<matrix[0].count{
-            matrix[secondLine][i] += λ * matrix[firstLine][i]
+    
+    /// <#Description#>
+    ///
+    /// - Parameters:
+    ///   - firstLine: <#firstLine description#>
+    ///   - lambda: <#lambda description#>
+    ///   - secondLine: <#secondLine description#>
+    func addLineToOtherLine(firstLine: Int, lambda: Double, secondLine: Int) {
+        for i in 0..<self.size {
+            matrix[secondLine][i] += lambda * matrix[firstLine][i]
         }
     }
     
-    func multiplyLine(line: Int, λ: Double){
-        for i in 0..<matrix[0].count {
-            matrix[line][i] *= λ
+    /// <#Description#>
+    ///
+    /// - Parameters:
+    ///   - line: <#line description#>
+    ///   - lambda: <#lambda description#>
+    func multiplyLine(line: Int, lambda: Double){
+        for i in 0..<self.size {
+            matrix[line][i] *= lambda
         }
     }
     
     /// Returns the matrix as a padded string
     var description: String {
         var output = ""
-        for line in matrix {
-            for col in line {
+        for row in matrix {
+            for col in row {
                 var entry = ""
                 if col >= 0 {
                     entry += " "
