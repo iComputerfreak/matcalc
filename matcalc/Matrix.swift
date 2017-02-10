@@ -224,7 +224,7 @@ class Matrix {
         let matrix: Matrix = Matrix(matrix: self.matrix)
         var illegalBases: [Int] = [Int]()
         for column in 0..<matrix.matrix[0].count {
-            if matrix.nullColumn(columnPosition: column) {
+            if matrix.isNullColumn(columnPosition: column) {
                 continue
             }
             let positionCalculatorResult: (Int, [Int]) = matrix.baseLine(column: column, illegalBases: illegalBases)
@@ -270,7 +270,7 @@ class Matrix {
         return (-1, newIllegalBase)
     }
     
-    func nullColumn(columnPosition: Int) -> Bool{
+    func isNullColumn(columnPosition: Int) -> Bool{
         for row in 0..<matrix[0].count{
             if matrix[row][columnPosition] != 0 {
                 return false
