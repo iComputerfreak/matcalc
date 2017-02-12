@@ -184,7 +184,14 @@ class Matrix {
         return result
     }
     
-    /// Operator overloading of * executes a matrix multiplication
+    
+    /// this method implements the matrix multiplication for nxm with mxk Matrixes this method is not commutative
+    ///
+    /// - Parameters:
+    ///   - left: matrix
+    ///   - right: matrix of the operation
+    /// - Returns: the result of the matrix multiplication
+    /// - Throws: an IllegalArgumentError if and only if there are is no multiplication of nxm*mxk
     static func *(left: Matrix, right: Matrix) throws -> Matrix{
         var result: Matrix = Matrix()
         guard left.matrix[0].count == right.matrix.count else{
@@ -224,7 +231,7 @@ class Matrix {
         let matrix: Matrix = Matrix(matrix: self.matrix)
         var illegalBases: [Int] = [Int]()
         for column in 0..<matrix.matrix[0].count {
-            if matrix.nullColumn(columnPosition: column) {
+            if matrix.isNullColumn(columnPosition: column) {
                 continue
             }
             let positionCalculatorResult: (Int, [Int]) = matrix.baseLine(column: column, illegalBases: illegalBases)
@@ -233,14 +240,14 @@ class Matrix {
             if positionCalculatorLine == -1 {
                 continue
             }
-            for line in 0..<matrix.size {
+            for line in 0..<matrix.size.lines {
                 if matrix.matrix[line][column] != 0 && line != positionCalculatorLine {
                     let multiplicator: Double = -( matrix.matrix[line][column]/matrix.matrix[positionCalculatorLine][column])
                     matrix.addLineToOtherLine(firstLine: positionCalculatorLine, lambda: multiplicator, secondLine: line)
                 }
             }
         }
-        for columnAndRow in 0..<matrix.size {
+        for columnAndRow in 0..<matrix.size.lines {
             if matrix.matrix[columnAndRow][columnAndRow] == 0 {
                 continue
             } else {
@@ -273,12 +280,12 @@ class Matrix {
         return (-1, newIllegalBase)
     }
     
-    /// <#Description#>
+    /// analyses a collumn whether it contains only 0 values
     ///
-    /// - Parameter columnPosition: <#columnPosition description#>
-    /// - Returns: <#return value description#>
+    /// - Parameter columnPosition: index of the column which should be analysed
+    /// - Returns: true if the column contains only 0 values otherwise false
     public func isNullColumn(columnPosition: Int) -> Bool {
-        for row in 0..<self.size {
+        for row in 0..<self.size.lines {
             if matrix[row][columnPosition] != 0 {
                 return false
             }
@@ -286,7 +293,7 @@ class Matrix {
         return true
     }
     
-    /// <#Description#>
+    /// transposes the matrix which means lines are transformed to columns
     public func transpose() {
         var resultMatrix: [[Double]] = Array.init(repeating: Array.init(repeating: 0, count: size.columns), count: size.columns)
         for line in 0..<size.lines{
@@ -297,7 +304,7 @@ class Matrix {
         matrix = resultMatrix
     }
     
-    /// <#Description#>
+    /// sorts the matrix after the criteria which element in the columns are higher read from left
     func sort() {
         transpose()
         matrix.sort { (first, second) -> Bool in
@@ -318,20 +325,20 @@ class Matrix {
         transpose()
     }
     
-    /// <#Description#>
+    /// indicates whether a specific line contains only null elements
     ///
-    /// - Parameter line: <#line description#>
-    /// - Returns: <#return value description#>
+    /// - Parameter line: the line given as a array of double elements
+    /// - Returns: true if all elements of line equal 0
     func zeroLine(line: [Double])-> Bool {
         return line.elementsEqual([Double](repeating: 0.0, count: line.count))
     }
     
     
-    /// <#Description#>
+    /// swaps to lines of this matrix
     ///
     /// - Parameters:
-    ///   - first: <#first description#>
-    ///   - second: <#second description#>
+    ///   - first: index of the first line which gets swapped
+    ///   - second: index of the second line which gets swapped
     func swapLines(first: Int, second: Int) {
         let firstLine = matrix[second]
         let secondLine = matrix[first]
@@ -341,19 +348,19 @@ class Matrix {
     }
     
     
-    /// <#Description#>
+    /// adds a lambda multiple of the firstline to the second line
     ///
     /// - Parameters:
-    ///   - firstLine: <#firstLine description#>
-    ///   - lambda: <#lambda description#>
-    ///   - secondLine: <#secondLine description#>
+    ///   - firstLine: index of first line
+    ///   - lambda: multiplicator for the first line
+    ///   - secondLine: which should be added
     func addLineToOtherLine(firstLine: Int, lambda: Double, secondLine: Int) {
-        for i in 0..<self.size {
+        for i in 0..<self.size.lines {
             matrix[secondLine][i] += lambda * matrix[firstLine][i]
         }
     }
     
-    //gauß operation multiplies all elements on the line with a λ
+    /// Gauß operation multiplies all elements on the line with a λ
     func multiplyLine(line: Int, λ: Double){
         for i in 0..<matrix[0].count {
             matrix[line][i] *= λ
