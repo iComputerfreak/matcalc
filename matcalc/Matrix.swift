@@ -226,7 +226,9 @@ class Matrix {
         return c
     }
     
-    ///returns a after gauß in gauß normal form
+    /// returns a new matrix which is calculated by gauß transformations out of this matrix in gauß normal form
+    ///
+    /// - Returns: this matrix in gauß normal form
     func gauß() -> Matrix{
         let matrix: Matrix = Matrix(matrix: self.matrix)
         var illegalBases: [Int] = [Int]()
@@ -252,7 +254,7 @@ class Matrix {
                 continue
             } else {
                 let multiplicator: Double = 1 / matrix.matrix[columnAndRow][columnAndRow]
-                matrix.multiplyLine(line: columnAndRow, lambda: multiplicator)
+                matrix.multiplyLine(line: columnAndRow, λ: multiplicator)
             }
         }
         matrix.sort()
@@ -272,8 +274,8 @@ class Matrix {
                 if newIllegalBase.contains(line) {
                     continue
                 } else {
-                    newIllegalBase.append(row)
-                    return (row, newIllegalBase)
+                    newIllegalBase.append(line)
+                    return (line, newIllegalBase)
                 }
             }
         }
@@ -295,7 +297,7 @@ class Matrix {
     
     /// transposes the matrix which means lines are transformed to columns
     public func transpose() {
-        var resultMatrix: [[Double]] = Array.init(repeating: Array.init(repeating: 0, count: size.columns), count: size.columns)
+        var resultMatrix: [[Double]] = Array.init(repeating: Array.init(repeating: 0, count: size.lines), count: size.columns)
         for line in 0..<size.lines{
             for column in 0..<size.columns{
                 resultMatrix[column][line] = matrix[line][column]
@@ -306,23 +308,23 @@ class Matrix {
     
     /// sorts the matrix after the criteria which element in the columns are higher read from left
     func sort() {
-        transpose()
-        matrix.sort { (first, second) -> Bool in
-            if zeroLine(line: first){
+        matrix.sort { (firstLine, secondLine) -> Bool in
+            if zeroLine(line: firstLine) {
                 return false
-            }else if zeroLine(line: second){
+            }else if zeroLine(line: secondLine) {
                 return true
             }
-            for i in 0..<first.count {
-                if first[i] > second[i] {
+            for i in 0..<firstLine.count {
+                if firstLine[i] > secondLine[i] {
                     return true
-                } else if first[i] < second[i] {
+                } else if firstLine[i] < secondLine[i] {
                     return false
+                } else {
+                    continue
                 }
             }
             return true
         }
-        transpose()
     }
     
     /// indicates whether a specific line contains only null elements
