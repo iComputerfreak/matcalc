@@ -100,7 +100,7 @@ class Matrix {
         guard i > 0 && i <= size.lines && j > 0 && j <= size.columns else {
             throw MatrixError.IllegalArgumentError
         }
-        matrix[i][j] = newValue
+        matrix[i-1][j-1] = newValue
     }
     
     /// Sets an element of the matrix
@@ -226,6 +226,35 @@ class Matrix {
         return c
     }
     
+    
+    /// this method calculates the rank of this matrix
+    ///
+    /// - Returns: the rank of this matrix
+    func rank() -> Int {
+        let transformedGaußNFMatrix: Matrix = gauß()
+        return transformedGaußNFMatrix.diagonalElementsUnEqualZero()
+    }
+    
+    
+    /// calculates the number of diagonal elements != 0
+    ///
+    /// - Returns: the number of diagolnal elements !=0
+    private func diagonalElementsUnEqualZero() -> Int {
+        var count: Int = 0
+        var maxElementsUnequalZero: Int
+        if size.columns < size.lines {
+            maxElementsUnequalZero = size.columns
+        } else {
+            maxElementsUnequalZero = size.lines
+        }
+        for i in 0..<maxElementsUnequalZero {
+            if matrix[i][i] != 0 {
+                count += 1
+            }
+        }
+        return count
+    }
+    
     /// returns a new matrix which is calculated by gauß transformations out of this matrix in gauß normal form
     ///
     /// - Returns: this matrix in gauß normal form
@@ -250,6 +279,9 @@ class Matrix {
             }
         }
         for columnAndRow in 0..<matrix.size.lines {
+            if columnAndRow >= matrix.size.columns {
+                continue
+            }
             if matrix.matrix[columnAndRow][columnAndRow] == 0 {
                 continue
             } else {
@@ -357,7 +389,7 @@ class Matrix {
     ///   - lambda: multiplicator for the first line
     ///   - secondLine: which should be added
     func addLineToOtherLine(firstLine: Int, lambda: Double, secondLine: Int) {
-        for i in 0..<self.size.lines {
+        for i in 0..<self.size.columns {
             matrix[secondLine][i] += lambda * matrix[firstLine][i]
         }
     }

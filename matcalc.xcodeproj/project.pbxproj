@@ -26,7 +26,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		ABE0867F1E4CB0E5004B1DF0 /* matcalc */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = matcalc; sourceTree = BUILT_PRODUCTS_DIR; };
+		80BD28631E55EDB600C32E8B /* MatrixTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = MatrixTest.xctest; path = /Users/schilling/Documents/Programming/matcalc/build/Debug/MatrixTest.xctest; sourceTree = "<absolute>"; };
+		ABE0867F1E4CB0E5004B1DF0 /* matcalc */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; name = matcalc; path = /Users/schilling/Documents/Programming/matcalc/build/Debug/matcalc; sourceTree = "<absolute>"; };
 		ABE086821E4CB0E5004B1DF0 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		ABE086891E4CB27B004B1DF0 /* Matrix.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Matrix.swift; sourceTree = "<group>"; };
 		ABE0868A1E4CB27B004B1DF0 /* MatrixGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MatrixGenerator.swift; sourceTree = "<group>"; };
@@ -34,6 +35,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		80BD28601E55EDB600C32E8B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		ABE0867C1E4CB0E5004B1DF0 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -44,20 +52,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		80BD28571E55E90E00C32E8B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		ABE086761E4CB0E5004B1DF0 = {
 			isa = PBXGroup;
 			children = (
 				ABE086811E4CB0E5004B1DF0 /* matcalc */,
-				ABE086801E4CB0E5004B1DF0 /* Products */,
+				80BD28571E55E90E00C32E8B /* Frameworks */,
 			);
-			sourceTree = "<group>";
-		};
-		ABE086801E4CB0E5004B1DF0 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				ABE0867F1E4CB0E5004B1DF0 /* matcalc */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		ABE086811E4CB0E5004B1DF0 /* matcalc */ = {
@@ -74,6 +81,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		80BD28621E55EDB600C32E8B /* MatrixTest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 80BD28681E55EDB600C32E8B /* Build configuration list for PBXNativeTarget "MatrixTest" */;
+			buildPhases = (
+				80BD285F1E55EDB600C32E8B /* Sources */,
+				80BD28601E55EDB600C32E8B /* Frameworks */,
+				80BD28611E55EDB600C32E8B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MatrixTest;
+			productName = MatrixTest;
+			productReference = 80BD28631E55EDB600C32E8B /* MatrixTest.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		ABE0867E1E4CB0E5004B1DF0 /* matcalc */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = ABE086861E4CB0E5004B1DF0 /* Build configuration list for PBXNativeTarget "matcalc" */;
@@ -101,6 +125,12 @@
 				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = "Jonas Frey";
 				TargetAttributes = {
+					80BD28621E55EDB600C32E8B = {
+						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = 5GYT6GU4AK;
+						LastSwiftMigration = 0820;
+						ProvisioningStyle = Automatic;
+					};
 					ABE0867E1E4CB0E5004B1DF0 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = 5GYT6GU4AK;
@@ -116,16 +146,34 @@
 				en,
 			);
 			mainGroup = ABE086761E4CB0E5004B1DF0;
-			productRefGroup = ABE086801E4CB0E5004B1DF0 /* Products */;
+			productRefGroup = ABE086761E4CB0E5004B1DF0;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				ABE0867E1E4CB0E5004B1DF0 /* matcalc */,
+				80BD28621E55EDB600C32E8B /* MatrixTest */,
 			);
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		80BD28611E55EDB600C32E8B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
+		80BD285F1E55EDB600C32E8B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		ABE0867B1E4CB0E5004B1DF0 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -140,6 +188,39 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		80BD28691E55EDB600C32E8B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 5GYT6GU4AK;
+				INFOPLIST_FILE = MatrixTest/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.darkmattergames.MatrixTest;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OBJC_BRIDGING_HEADER = "MatrixTest-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		80BD286A1E55EDB600C32E8B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 5GYT6GU4AK;
+				INFOPLIST_FILE = MatrixTest/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.darkmattergames.MatrixTest;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "MatrixTest-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
 		ABE086841E4CB0E5004B1DF0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -251,6 +332,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		80BD28681E55EDB600C32E8B /* Build configuration list for PBXNativeTarget "MatrixTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				80BD28691E55EDB600C32E8B /* Debug */,
+				80BD286A1E55EDB600C32E8B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		ABE0867A1E4CB0E5004B1DF0 /* Build configuration list for PBXProject "matcalc" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
