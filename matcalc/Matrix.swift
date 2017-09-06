@@ -14,13 +14,13 @@ import Foundation
 /// - IllegalArgumentError: error thrown when an invalid parameter has been passed to a function
 enum MatrixError: Error {
     case IllegalArgumentError
+    case NoInverseAvailable
 }
 
 /// Represents a quadratic matrix
 class Matrix {
     
     // matrix will never be empty. matrix always has at least 1 element
-    
     /// the matrix
     private var matrix: [[Double]]
     
@@ -163,7 +163,6 @@ class Matrix {
         for i in 0..<size.lines {
             // Laplace:
             determinant += ((i + j) % 2 == 0 ? 1 : -1) * self.matrix[i][j] * self.removeLineAndColumn(i, j).determinant()
-            // 36
         }
         
         return determinant
@@ -253,6 +252,32 @@ class Matrix {
             }
         }
         return count
+    }
+    
+    /// returns a new matrix which is the inverse of this matrix
+    ///
+    /// - Returns: the inverse of this matrix
+    func inverse() throws -> Matrix {
+        let calcMatrix: Matrix = Matrix(n: self.size.lines, m: self.size.columns*2)
+        guard determinant() != 0 else{
+            throw MatrixError.NoInverseAvailable
+        }
+        for i in 0..<self.size.lines {
+            for j in 0..<self.size.columns {
+                calcMatrix.matrix[i][j] = matrix[i][j]
+            }
+        }
+        for s in self.size.columns..<calcMatrix.size.columns {
+            calcMatrix.matrix[s-self.size.lines][s] = 1
+        }
+        let preResult: Matrix = calcMatrix.gauß()
+        let result: Matrix = Matrix(n: self.size.lines, m: self.size.columns)
+        for i in 0..<result.size.lines {
+            for j in 0..<result.size.columns {
+                result.matrix[i][j] = preResult.matrix[i][j+result.size.columns]
+            }
+        }
+        return result
     }
     
     /// returns a new matrix which is calculated by gauß transformations out of this matrix in gauß normal form
