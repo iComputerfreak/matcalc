@@ -441,7 +441,7 @@ class Matrix {
                 entry += "\(col)  "
                 output += entry
             }
-            output = output.substring(to: output.index(output.startIndex, offsetBy: output.characters.count - 1))
+            output = output.substring(to: output.index(output.startIndex, offsetBy: output.count - 1))
             output += "\n"
         }
         return output

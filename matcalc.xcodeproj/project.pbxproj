@@ -26,8 +26,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		80BD28631E55EDB600C32E8B /* MatrixTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = MatrixTest.xctest; path = /Users/schilling/Documents/Programming/matcalc/build/Debug/MatrixTest.xctest; sourceTree = "<absolute>"; };
-		ABE0867F1E4CB0E5004B1DF0 /* matcalc */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; name = matcalc; path = /Users/schilling/Documents/Programming/matcalc/build/Debug/matcalc; sourceTree = "<absolute>"; };
+		803CCABA1F6AB12A00AA920A /* matcalc */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = matcalc; sourceTree = BUILT_PRODUCTS_DIR; };
+		803CCABB1F6AB12A00AA920A /* MatrixTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MatrixTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		ABE086821E4CB0E5004B1DF0 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		ABE086891E4CB27B004B1DF0 /* Matrix.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Matrix.swift; sourceTree = "<group>"; };
 		ABE0868A1E4CB27B004B1DF0 /* MatrixGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MatrixGenerator.swift; sourceTree = "<group>"; };
@@ -64,6 +64,8 @@
 			children = (
 				ABE086811E4CB0E5004B1DF0 /* matcalc */,
 				80BD28571E55E90E00C32E8B /* Frameworks */,
+				803CCABA1F6AB12A00AA920A /* matcalc */,
+				803CCABB1F6AB12A00AA920A /* MatrixTest.xctest */,
 			);
 			sourceTree = "<group>";
 		};
@@ -95,7 +97,7 @@
 			);
 			name = MatrixTest;
 			productName = MatrixTest;
-			productReference = 80BD28631E55EDB600C32E8B /* MatrixTest.xctest */;
+			productReference = 803CCABB1F6AB12A00AA920A /* MatrixTest.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		ABE0867E1E4CB0E5004B1DF0 /* matcalc */ = {
@@ -112,7 +114,7 @@
 			);
 			name = matcalc;
 			productName = matcalc;
-			productReference = ABE0867F1E4CB0E5004B1DF0 /* matcalc */;
+			productReference = 803CCABA1F6AB12A00AA920A /* matcalc */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -122,7 +124,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0820;
-				LastUpgradeCheck = 0820;
+				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = "Jonas Frey";
 				TargetAttributes = {
 					80BD28621E55EDB600C32E8B = {
@@ -306,6 +308,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 			};
 			name = Release;
 		};
