@@ -1,4 +1,4 @@
-
+    
 //
 //  UserInterface.swift
 //  matcalc
@@ -51,6 +51,7 @@ class UserInterface {
                 print("After Gauß transition the result Matrix is:")
                 print("\(m!.gauß().description)")
                 print("")
+                print("Matrix is symmetrical: \(m!.isSymmetrical())")
                 print("")
             } else {
                 // Error already printed in sub method

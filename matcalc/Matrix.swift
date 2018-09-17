@@ -352,6 +352,28 @@ class Matrix {
         return true
     }
     
+    /// determines whether or not this matrix is symmetrical
+    public func isSymmetrical() -> Bool {
+        if (size.columns != size.lines) {
+            return false
+        }
+        for row in 0 ..< self.size.lines {
+            for column in row ..< self.size.columns {
+                if (row == column) {
+                    continue
+                }
+                //this error is prevented by the size.columns == size.lines condition
+                // which is evaluated at the beginning and required for this method
+                let ij = try? get(column, row)
+                let ji = try? get(row, column)
+                if (ij != ji) {
+                    return false
+                }
+            }
+        }
+        return true
+    }
+    
     /// transposes the matrix which means lines are transformed to columns
     public func transpose() {
         var resultMatrix: [[Double]] = Array.init(repeating: Array.init(repeating: 0, count: size.lines), count: size.columns)
