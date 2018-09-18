@@ -374,6 +374,14 @@ class Matrix {
         return true
     }
     
+    /// determines whether or not this matrix is positiv definit.
+    public func isPositivDefinit() -> Bool {
+        if (size.columns != size.lines) {
+            return false
+        }
+        return determinant() > 0 && (self.removeLineAndColumn(0, 0).isPositivDefinit() || size.columns <= 1)
+    }
+    
     /// transposes the matrix which means lines are transformed to columns
     public func transpose() {
         var resultMatrix: [[Double]] = Array.init(repeating: Array.init(repeating: 0, count: size.lines), count: size.columns)

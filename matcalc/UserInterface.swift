@@ -53,6 +53,8 @@ class UserInterface {
                 print("")
                 print("Matrix is symmetrical: \(m!.isSymmetrical())")
                 print("")
+                print("Matrix is positiv definit: \(m!.isPositivDefinit())")
+                print("")
             } else {
                 // Error already printed in sub method
             }
